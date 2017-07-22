@@ -1,0 +1,83 @@
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-6">
+          <input class="form-control" [(ngModel)]="query" placeholder="Search">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <label class="label-control">Sort by</label>
+          <select [(ngModel)]="sortBy" (ngModelChange)="onSortByChange($event)">
+            <option ngValue="name">Name</option>
+            <option ngValue="email">Email</option>
+            <option ngValue="age">Age</option>
+            <option ngValue="city">City</option>
+          </select>
+        </div>
+      </div><!-- row -->
+
+      <br>
+
+      <div class="panel panel-default">
+        <table class="table table-striped" [paginate]='users' #p="paginationData">
+          <thead>
+            <tr>
+              <th><sortArrows by="name">Name</sortArrows></th>
+              <th><sortArrows by="email">Email</sortArrows></th>
+              <th><sortArrows by="age">Age</sortArrows></th>
+              <th><sortArrows by="city">City</sortArrows></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of p.paginatedData | dataFilter : query : users ">
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td class="text-right">{{user.age}}</td>
+              <td>{{user.city}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">
+                <ul class="pagination" *ngIf="p.totalPages>0">
+                    <li class="page-item" [class.disabled]="p.currentPage<4">
+                        <a class="page-link" (click)="p.setActivePage(1)">&laquo;</a>
+                    </li>
+                    <li class="page-item" *ngIf="p.currentPage>(p.totalPages-1) && (p.currentPage-4)>0" (click)="p.setActivePage(p.currentPage-4)">
+                        <a class="page-link">{{p.currentPage-4}}</a>
+                    </li>
+                    <li class="page-item" *ngIf="p.currentPage>(p.totalPages-2) && (p.currentPage-3)>0" (click)="p.setActivePage(p.currentPage-3)">
+                        <a class="page-link">{{p.currentPage-3}}</a>
+                    </li>
+                    <li class="page-item" *ngIf="(p.currentPage-2)>0" (click)="p.setActivePage(p.currentPage-2)">
+                        <a class="page-link">{{p.currentPage-2}}</a>
+                    </li>
+                    <li class="page-item" *ngIf="(p.currentPage-1)>0" (click)="p.setActivePage(p.currentPage-1)">
+                        <a class="page-link">{{p.currentPage-1}}</a>
+                    </li>
+                    <!-- active -->
+                    <li class="page-item active" (click)="p.setActivePage(p.currentPage)">
+                        <a class="page-link">{{p.currentPage}}</a>
+                    </li>
+                    <!-- ****** -->
+                    <li class="page-item" *ngIf="(p.currentPage+1)<=p.totalPages" (click)="p.setActivePage(p.currentPage+1)">
+                        <a class="page-link">{{p.currentPage+1}}</a>
+                    </li>
+                    <li class="page-item" *ngIf="(p.currentPage+2)<=p.totalPages" (click)="p.setActivePage(p.currentPage+2)">
+                        <a class="page-link">{{p.currentPage+2}}</a>
+                    </li>
+                    <li class="page-item" *ngIf="(p.currentPage+3)<p.totalPages && p.currentPage<3" (click)="p.setActivePage(p.currentPage+3)">
+                        <a class="page-link">{{p.currentPage+3}}</a>
+                    </li>
+                    <li class="page-item" *ngIf="(p.currentPage+4)<p.totalPages && p.currentPage<2" (click)="p.setActivePage(p.currentPage+4)">
+                        <a class="page-link">{{p.currentPage+4}}</a>
+                    </li>
+                    <li class="page-item" [class.disabled]="p.currentPage>(p.totalPages-4)">
+                        <a class="page-link" (click)="p.setActivePage(p.totalPages)">&raquo;</a>
+                    </li>
+                </ul>                
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div><!-- panel -->

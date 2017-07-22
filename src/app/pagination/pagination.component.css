@@ -1,0 +1,12 @@
+table thead tr th:nth-child(1){
+	width:30%;
+}
+table thead tr th:nth-child(2){
+	width:40%;
+}
+table thead tr th:nth-child(3){
+	width:10%;
+}
+table thead tr th:nth-child(4){
+	width:20%;
+}
